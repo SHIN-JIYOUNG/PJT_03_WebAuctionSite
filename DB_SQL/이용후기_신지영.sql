@@ -9,11 +9,11 @@
 create table REVIEW_TB(
 REVIEW_NO number(4) constraint PK_REVIEW_NO primary key,
 REVIEW_TIME DATE not null,
-REVIEW_IMAGE varchar2(30),
-REVIEW_LIKE number,
-REVIEW_TEXT varchar2(500) not null,
-MEM_NO number constraint fk_mem_no references MEMBER_TB_TEST(MEM_NO) on delete cascade,
-ART_NO number constraint fk_art_no references art_info_tb_TEST(ART_NO) /*작품은 품절되거나 해도 작품테이블에서 삭제 안되고 그대로 남아있는 거*/
+REVIEW_IMAGE varchar2(50),
+REVIEW_LIKE number(4),
+REVIEW_TEXT varchar2(2000) not null,
+MEM_NO number(4) constraint fk_mem_no references MEMBER_TB_TEST(MEM_NO) on delete cascade,
+ART_NO number(4) constraint fk_art_no references art_info_tb_TEST(ART_NO) /*작품은 품절되거나 해도 작품테이블에서 삭제 안되고 그대로 남아있는 거*/
 );
 
 
@@ -110,6 +110,26 @@ insert into    MEMBER_TB_TEST values(
 select * from MEMBER_TB_TEST;
 
 
+/*결제 테이블 테스트용 만들기*/
+create table PAYMENT_TB(
+art_no number references art_info_tb_TEST(ART_NO),
+pay_amount number);
+
+select * from payment_tb;
+
+insert into payment_tb values(
+1 ,
+530000);
+
+insert into payment_tb values(
+2 ,
+170000);
+
+insert into payment_tb values(
+3 ,
+300000);
+
+
 
 /*작품정보 테이블 테스트용 만들기*/
 
@@ -120,9 +140,6 @@ create table art_info_tb_TEST (
  art_tag1 varchar2(20),
  art_tag2 varchar2(20),
  art_tag3 varchar2(20)
- /**********
- auc_buy number not null /*AUC_BUY: 즉시구매가
- ***************/
  );
 
  alter table art_info_tb_TEST add MEM_NO number; /*작가의 회원번호 */
